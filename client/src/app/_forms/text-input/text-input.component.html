@@ -15,6 +15,9 @@
     <div class="invalid-feedback" *ngIf="control.errors?.['maxlength']">
         {{label}} must be at most {{control.errors?.['maxlength'].requiredLength}} characters
     </div>
+    <div class="invalid-feedback" *ngIf="control.errors?.['pattern']">
+        {{label}} must contain one number one small one capital letter and one special character
+    </div>
     <div class="invalid-feedback" *ngIf="control.errors?.['notMatching']">
         Passwords do not match
     </div>

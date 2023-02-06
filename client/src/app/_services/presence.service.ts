@@ -26,25 +26,25 @@ export class PresenceService {
       .withAutomaticReconnect()
       .build();
 
-    this.hubConnection.start().catch(error => console.log(error));
+    this.hubConnection.start().catch((error: any) => console.log(error));
 
-    this.hubConnection.on('UserIsOnline', username => {
+    this.hubConnection.on('UserIsOnline', (username: string) => {
       this.onlineUsers$.pipe(take(1)).subscribe({
         next: usernames => this.onlineUsersSource.next([...usernames, username])
       })
     })
 
-    this.hubConnection.on('UserIsOffline', username => {
+    this.hubConnection.on('UserIsOffline', (username: string) => {
       this.onlineUsers$.pipe(take(1)).subscribe({
         next: usernames => this.onlineUsersSource.next(usernames.filter(x => x !== username))
       })
     })
 
-    this.hubConnection.on('GetOnlineUsers', usernames => {
+    this.hubConnection.on('GetOnlineUsers', (usernames: string[]) => {
       this.onlineUsersSource.next(usernames);
     })
 
-    this.hubConnection.on('NewMessageReceived', ({username, knownAs}) => {
+    this.hubConnection.on('NewMessageReceived', ({username, knownAs} : any) => {
       this.toastr.info(knownAs + ' has sent you a new message! Click me to see it')
         .onTap
         .pipe(take(1))
@@ -55,6 +55,6 @@ export class PresenceService {
   }
 
   stopHubConnection() {
-    this.hubConnection?.stop().catch(error => console.log(error));
+    this.hubConnection?.stop().catch((error: any) => console.log(error));
   }
 }
